@@ -19,7 +19,7 @@ function getTimelineNode(dateString, events) {
     var labels = $("<div class='relative'></div>").append(eventLabel, otherLabels);
 
     var table = $("<table style='width:100%'></table>");
-    var header = $("<tr><th style='text-align: center; border-right: solid 1px #e2e2e2;'>Condition</th><th style='text-align: center; border-right: solid 1px #e2e2e2;'>Observation</th><th style='text-align: center;'>Medication</th></tr>");
+    var header = $("<tr><th>Condition</th><th>Observation</th><th>Medication</th></tr>");
     var row = $("<tr></tr>");
     for (i = 0; i < events.length; i++) {
         var condition = ""
@@ -37,9 +37,9 @@ function getTimelineNode(dateString, events) {
             medication += "<p>" + event.name + "</br>" + "Quantity : " + event.quantity.value + " " + event.quantity.unit + "</br>" + "Supply : " + event.supply.value + " " + event.supply.unit + "</p>";
         }
     }
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>"+condition+"</td>"));
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>"+observation+"</td>"));
-    row.append($("<td style='text-align: center; width: 33%; word-break: break-all; word-wrap: break-word;'>"+medication+"</td>"));
+    row.append($("<td>"+condition+"</td>"));
+    row.append($("<td>"+observation+"</td>"));
+    row.append($("<td>"+medication+"</td>"));
     table.append(header);
     table.append(row);
     
