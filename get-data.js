@@ -72,12 +72,10 @@ function render_list() {
         }
         $("#patient_name").text($.patient.name);
         $("#patient_gender").text($.patient.gender);
+        $("#patient_age").text(new Date().getFullYear() - $.patient.birthDate.getFullYear());        
         $("#patient_id").text($.patient.id);
-        $("#patient_dob").text($.patient.birthDate.toLocaleDateString("en-US", {day:'numeric', month: 'short', year: 'numeric'})
-);
+        $("#patient_dob").text($.patient.birthDate.toLocaleDateString("en-US", {day:'numeric', month: 'short', year: 'numeric'}));
         $("#patient_address").text($.patient.address.line.join() + ", " + patient.address.city + ", " + patient.address.state + ", " + patient.address.country + " " + patient.address.postalCode);
-
-
 
     } else {
         console.log("--- waiting for data ---")
