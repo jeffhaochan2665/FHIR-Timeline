@@ -18,6 +18,9 @@ h2 {
   letter-spacing: 2px;
   text-transform: uppercase;
 }
+/*.container {
+    
+}*/
 #timeline {
   list-style: none;
   margin: 50px 0 30px 120px;
@@ -81,6 +84,7 @@ h2 {
   top: 50%;
   margin-top: -17px;
 }
+
 .content p {
   max-height: 0;
   color: transparent;
