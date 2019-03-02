@@ -37,9 +37,9 @@ function getTimelineNode(dateString, events) {
             medication += "<p>" + event.name + "</br>" + "Quantity : " + event.quantity.value + " " + event.quantity.unit + "</br>" + "Supply : " + event.supply.value + " " + event.supply.unit + "</p>";
         }
     }
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+condition+"</td>"));
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+observation+"</td>"));
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+medication+"</td>"));
+    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>"+condition+"</td>"));
+    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>"+observation+"</td>"));
+    row.append($("<td style='text-align: center; width: 33%; word-break: break-all; word-wrap: break-word;'>"+medication+"</td>"));
     table.append(header);
     table.append(row);
     
@@ -52,6 +52,7 @@ function render_list() {
     if (self.patient && self.conditions && self.medDispenses && self.observations) {
         console.log("--- data retrieved ---");
         clearInterval($.timer_handler);
+
         events = self.conditions.concat(self.medDispenses, self.observations);
         events.sort(function (a, b) {
             return a.date - b.date;
@@ -69,7 +70,7 @@ function render_list() {
         for (var date in eventsByDate) {
             $("#timeline").append(getTimelineNode(date, eventsByDate[date]));
         }
-
+    
         $("#gender").text(patient.gender);
     } else {
         console.log("--- waiting for data ---")
@@ -144,6 +145,7 @@ smart.patient.api.fetchAllWithReferences({ type: "Observation" }).then(function 
     observations = [];
     for (i = 0; i < results.length; i++) {
         rawObservation = results[i];
+        console.log(rawObservation);
         observation = {
             type: "observation"
         };
