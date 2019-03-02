@@ -14,7 +14,7 @@ function getTimelineNode(dateString, events) {
 
     var input = $("<input class='radio' type='radio' name='works'></input>").attr("id", dateString);
 
-    var eventLabel = $("<label>Event</label>").attr("for", dateString);
+    var eventLabel = $("<label>Ambulatory Encounter</label>").attr("for", dateString);
     var otherLabels = $("<span class='date'>"+dateString+"</span><span class='circle'></span>");
     var labels = $("<div class='relative'></div>").append(eventLabel, otherLabels);
 
@@ -70,8 +70,15 @@ function render_list() {
         for (var date in eventsByDate) {
             $("#timeline").append(getTimelineNode(date, eventsByDate[date]));
         }
-    
-        $("#gender").text(patient.gender);
+        $("#patient_name").text($.patient.name);
+        $("#patient_gender").text($.patient.gender);
+        $("#patient_id").text($.patient.id);
+        $("#patient_dob").text($.patient.birthDate.toLocaleDateString("en-US", {day:'numeric', month: 'short', year: 'numeric'})
+);
+        $("#patient_address").text($.patient.address.line.join() + ", " + patient.address.city + ", " + patient.address.state + ", " + patient.address.country + " " + patient.address.postalCode);
+
+
+
     } else {
         console.log("--- waiting for data ---")
     }
