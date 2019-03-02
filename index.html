@@ -2,18 +2,159 @@
 <html>
 
 <head>
-  <script data-require="jquery@*" data-semver="2.0.3" src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
-  <script src="demo-settings.js"></script>
+	<script data-require="jquery@*" data-semver="2.0.3" src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script src="demo-settings.js"></script>
+	<!-- jquery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<!-- BootStrap -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<!-- moment -->
+	<script type="text/javascript" src="./moment.js"></script>
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 </head>
 
 <body>
-  <h1> 
-  Hello 
-  <span id="patient_name">...</span>!
-  </h1>
-  <ul id="med_list"></ul>
-  <script src="https://cdn.rawgit.com/smart-on-fhir/client-js/v0.1.8/dist/fhir-client.js"></script>
-  <script src="get-data.js"></script>
+	<!-- NavBar -->
+	<div class = "container">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		  <a class="navbar-brand" href="#">FHIR-Timeline View</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		</nav>
+	</div>
+	<!-- Personal Info -->
+	<div class="container">
+		<div class="row">
+			<div class="col-2">
+				<img src="profile_pic.png" style="width:100%;">
+			</div>
+			<div class="col-10">
+				<h2> <span id="patient_name">...</span> </h2>
+				<div class="row">
+					<!-- Demographic Info -->
+					<table style="width:50%">
+					  <tr>
+					    <th>Gender</th>
+					    <td>male</td>
+					  </tr>
+					  <tr>
+					    <th>Age</th>
+					    <td>80 year</td>
+					  </tr>
+					  <tr>
+					    <th>Phone</th>
+					    <td>1-435-323-7650</td>
+					  </tr>
+					  <tr>
+					    <th>ID</th>
+					    <td></td>
+					  </tr>
+					</table>
+					<table style="width:50%">
+					  <tr>
+					    <th>DOB</th>
+					    <td>1931-01-07</td>
+					  </tr>
+					  <tr>
+					    <th>Email</th>
+					    <td>Unknown</td>
+					  </tr>
+					  <tr>
+					    <th>Address</th>
+					    <td>2 W Loop Rd NY NY US</td>
+					  </tr>
+					  <tr>
+					    <th>MRN</th>
+					    <td></td>
+					  </tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr></hr>
+	<!-- What to show -->
+	<div class="container">
+		<div class="row">
+			<form class="form-inline">
+	 			<div class="form-group">
+					<div class="col-3">
+						From:
+		    			<input type="date" class="form-control" placeholder="Start Time">
+					</div>
+					<div class="col-3">
+			 			To:
+			 			<input type="date" class="form-control" placeholder="End Time">
+					</div>
+					<div class="col-2">
+						<center><span><input type="checkbox" aria-label="Checkbox for following text input"> Condition </span></center>
+					</div>
+					<div class="col-2">
+						<center><span><input type="checkbox" aria-label="Checkbox for following text input"> Observation </span></center>
+					</div>
+					<div class="col-2">
+						<center><span><input type="checkbox" aria-label="Checkbox for following text input"> Medication</span></center>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- <div class="container">
+		<div class="row" style="background-color:powderblue;">
+			<div class="col-2">
+
+			</div>
+			<div class="col-10">
+				<ul id="med_list"></ul>
+			</div>
+		</div>
+	</div> -->
+	<!-- Timeline -->
+	<div class="container">
+		<ul id='timeline'>
+		  <li class='work'>
+		    <input class='radio' id='work5' name='works' type='radio' checked>
+		    <div class="relative">
+		      <label for='work5'>Encounter</label>
+		      <span class='date'>12 May 2013</span>
+		      <span class='circle'></span>
+		    </div>
+		    <div class='content'>
+		      <div class="row">
+		        <table style="width:100%" style="background-color: red">
+		        	<tr>
+		        		<th style="text-align: center; color: white; border-right: solid 1px #e2e2e2;">Encounter</th>
+		        		<th style="text-align: center; border-right: solid 1px #e2e2e2;">Condition</th>
+		        		<th style="text-align: center; border-right: solid 1px #e2e2e2;">Observation</th>
+		        		<th style="text-align: center;">Medication</th>
+		        	</tr>
+
+				</table>
+				
+		      </div>
+		    </div>
+		  </li>
+		  <li class='work'>
+		    <input class='radio' id='work3' name='works' type='radio'>
+		    <div class="relative">
+		      <label for='work3'>Lorem ipsum dolor sit amet</label>
+		      <span class='date'>10 May 2013</span>
+		      <span class='circle'></span>
+		    </div>
+		    <div class='content'>
+		      <p>
+		        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio ea necessitatibus quo velit natus cupiditate qui alias possimus ab praesentium nostrum quidem obcaecati nesciunt! Molestiae officiis voluptate excepturi rem veritatis eum aliquam qui laborum non ipsam ullam tempore reprehenderit illum eligendi cumque mollitia temporibus! Natus dicta qui est optio rerum.
+		      </p>
+		    </div>
+		  </li>
+		</ul>
+	</div>
+
+ 	<script src="https://cdn.rawgit.com/smart-on-fhir/client-js/v0.1.8/dist/fhir-client.js"></script>
+  	<script src="get-data.js"></script>
 </body>
 
 </html>
