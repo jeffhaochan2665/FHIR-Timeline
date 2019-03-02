@@ -10,9 +10,6 @@ function getDateString(date) {
 }
 
 function getTimelineNode(dateString, events) {
-    
-    //console.log(events[0]);
-
     var node = $("<li class='work'></li>");
 
     var input = $("<input class='radio' type='radio' checked></input>").attr("id", dateString);
@@ -39,10 +36,10 @@ function getTimelineNode(dateString, events) {
         if (event.type == "medDispense") {
             medication += "<p>" + event.name + "</br>" + "Quantity : " + event.quantity.value + " " + event.quantity.unit + "</br>" + "Supply : " + event.supply.value + " " + event.supply.unit + "</p>";
         }
-        row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+condition+"</td>"));
-        row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+observation+"</td>"));
-        row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+medication+"</td>"));
     }
+    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+condition+"</td>"));
+    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+observation+"</td>"));
+    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2;'>"+medication+"</td>"));
     table.append(header);
     table.append(row);
     
