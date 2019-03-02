@@ -20,6 +20,11 @@
 	<!-- moment -->
 	<script type="text/javascript" src="./moment.js"></script>
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 </head>
 
 <body class="container-fluid">
@@ -88,6 +93,8 @@
 	<!-- What to show -->
 	<div class="container-fluid">
 		<div class="row">
+			<form class="form-inline" action="" method="post" id="search-form">
+
 			<form class="form-inline">
 				<div class="col-11 form-group">
 					<div class="col-3">
@@ -98,10 +105,13 @@
 						To:
 						<input type="date" class="form-control" placeholder="End Time">
 					</div>
-					<div class="col-6">
-						<span><input type="checkbox" aria-label="Checkbox for Condition" id="condition"> Condition </span>
-						<span><input type="checkbox" aria-label="Checkbox for Observation" id="observation"> Observation </span>
-						<span><input type="checkbox" aria-label="Checkbox for Medication" id="medication"> Medication</span>
+					<div class="col-4">
+						<label for="show">What to show:</label>
+						<select class="selectpicker" multiple title="Please pick ..." id="show">
+						  <option selected="true">Condition</option>
+						  <option selected="true">Observation</option>
+						  <option selected="true">Medication</option>
+						</select>
 					</div>
 				</div>
 				<div class="col-1">
@@ -178,7 +188,23 @@
 			$.timer_handler = setInterval(function () {
 				render_list();
 			}, 300)
+			submitFilter();
+			$('#search-form').on('submit', function(e) {
+			    e.preventDefault();
+			    submitFilter();
+			})
 		})
+		function submitFilter(){
+			console.log('hello');
+			var elements = document.getElementById("search-form").elements;
+			console.log(elements["startDate"].value);
+			console.log(elements["endDate"].value);
+			console.log(elements["condition"].value);
+			console.log(elements["observation"].value);
+			console.log(elements["medication"].value);
+			console.log(elements);
+			console.log($('#search-form').serialize());
+		}
 	</script>
 </body>
 
