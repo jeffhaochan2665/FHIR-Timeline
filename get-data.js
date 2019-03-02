@@ -12,7 +12,7 @@ function getDateString(date) {
 function getTimelineNode(dateString, events) {
     var node = $("<li class='work'></li>");
 
-    var input = $("<input class='radio' type='radio' checked></input>").attr("id", dateString);
+    var input = $("<input class='radio' type='radio' name='works'></input>").attr("id", dateString);
 
     var eventLabel = $("<label>Event</label>").attr("for", dateString);
     var otherLabels = $("<span class='date'>"+dateString+"</span><span class='circle'></span>");

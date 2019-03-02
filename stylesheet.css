@@ -85,6 +85,15 @@ h2 {
   margin-top: -17px;
 }
 
+.content table {
+  max-height: 0;
+  color: transparent;
+  text-align: justify;
+  word-break: break-word;
+  hyphens: auto;
+  overflow: hidden;
+}
+
 .content p {
   max-height: 0;
   color: transparent;
@@ -93,6 +102,7 @@ h2 {
   hyphens: auto;
   overflow: hidden;
 }
+
 label {
   font-size: 1.3em;
   position: absolute;
@@ -116,6 +126,11 @@ label {
   margin-right: 20px;
   -webkit-transform: translateX(20px);
   -webkit-transition: max-height 0.4s linear, border-color 0.5s linear, -webkit-transform 0.2s linear;
+}
+.radio:checked ~ .content table {
+  max-height: 200px;
+  color: #000000;
+  -webkit-transition: color 0.3s linear 0.3s;
 }
 .radio:checked ~ .content p {
   max-height: 200px;
