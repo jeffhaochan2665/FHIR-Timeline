@@ -38,11 +38,11 @@
 					<table style="width:50%">
 					  <tr>
 					    <th>Gender</th>
-					    <td>male</td>
+					    <td id="gender">male</td>
 					  </tr>
 					  <tr>
 					    <th>Age</th>
-					    <td>80 year</td>
+					    <td id="age">80 year</td>
 					  </tr>
 					  <tr>
 					    <th>Phone</th>
@@ -160,7 +160,14 @@
 	</div>
 
  	<script src="https://cdn.rawgit.com/smart-on-fhir/client-js/v0.1.8/dist/fhir-client.js"></script>
-  	<script src="get-data.js"></script>
+	<script src="get-data.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$.timer_handler = setInterval(function() {
+				render_list();
+			}, 300)
+		})
+	</script>
 </body>
 
 </html>

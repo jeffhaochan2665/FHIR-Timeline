@@ -1,5 +1,23 @@
 // Create a FHIR client (server URL, patient id in `demo`)
 var smart = FHIR.client(demo)
+$.patient = null;
+$.conditions = null;
+$.medDispenses = null;
+$.observations = null;
+
+function render_list() {
+    if(self.patient && self.conditions && self.medDispenses && self.observations) {
+        console.log("--- data is gotten ---");
+        console.log(conditions)
+        console.log(medDispenses)
+        console.log(observations)
+        clearInterval($.timer_handler)
+        $("#gender").text(patient.gender);
+        // render anything
+    } else {
+        console.log("-- waiting for data....")
+    }
+}
 
 smart.patient.read().then(function (rawPatient) {
     patient = {
@@ -17,7 +35,8 @@ smart.patient.read().then(function (rawPatient) {
     patient.name = name;
     dateEncoding = rawPatient.birthDate.split("-");
     patient.birthDate = new Date(dateEncoding[0], dateEncoding[1] - 1, dateEncoding[2]);
-    console.log(patient);
+    // console.log(patient);
+    $.patient = patient;
 });
 
 smart.patient.api.fetchAllWithReferences({ type: "Condition" }).then(function (results, refs) {
@@ -36,6 +55,8 @@ smart.patient.api.fetchAllWithReferences({ type: "Condition" }).then(function (r
     });
     outside_conditions = conditions
     console.log(conditions);
+
+    $.conditions = conditions;
 });
 
 smart.patient.api.fetchAllWithReferences({ type: "MedicationDispense" }).then(function (results, refs) {
@@ -58,7 +79,8 @@ smart.patient.api.fetchAllWithReferences({ type: "MedicationDispense" }).then(fu
     medDispenses.sort(function (a, b) {
         return a.date - b.date;
     })
-    console.log(medDispenses);
+    // console.log(medDispenses);
+    $.medDispenses = medDispenses;
 });
 
 smart.patient.api.fetchAllWithReferences({ type: "Observation" }).then(function (results, refs) {
@@ -78,7 +100,8 @@ smart.patient.api.fetchAllWithReferences({ type: "Observation" }).then(function 
     observations.sort(function (a, b) {
         return a.date - b.date;
     })
-    console.log(observations);
-    testBoolean = true;
+    // console.log(observations);
+    $.observations = observations;
+    // testBoolean = true;
 });
-console.log(testBoolean);
+// console.log(testBoolean);
