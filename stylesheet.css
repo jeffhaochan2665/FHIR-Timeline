@@ -79,7 +79,7 @@ h2 {
   margin-top: -20px;
 }
 .content:after {
-  border-right-color: #48b379;
+  border-right-color: #ffffff;
   border-width: 17px;
   top: 50%;
   margin-top: -17px;
@@ -119,6 +119,6 @@ label {
 }
 .radio:checked ~ .content p {
   max-height: 200px;
-  color: #eee9dc;
+  color: #000000;
   -webkit-transition: color 0.3s linear 0.3s;
 }
