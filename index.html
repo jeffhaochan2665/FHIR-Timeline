@@ -46,13 +46,13 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-2">
-				<img src="profile_pic.png" style="width:100%;">
+				<img src="profile_pic.png" style="width:100%; padding-top: 20px;">
 			</div>
 			<div class="col-10">
 				<h2> <span id="patient_name">n/a</span> </h2>
 				<div class="row">
 					<!-- Demographic Info -->
-					<table style="width:50%">
+					<table class="patient_profile" style="width:50%;">
 						<tr>
 							<th>ID</th>
 							<td id="patient_id">n/a</td>
@@ -70,7 +70,7 @@
 							<td id="patient_dob">n/a</td>
 						</tr>
 					</table>
-					<table style="width:50%">
+					<table  class="patient_profile" style="width:50%">
 						<tr>
 							<th>Phone</th>
 							<td id="patient_phone">n/a</td>
@@ -105,10 +105,10 @@
 					</div>
 					<div class="col-4">
 						What to show:
-						<select class="selectpicker" multiple title="Please pick ..." id="show">
-							<option selected="true">Condition</option>
-							<option selected="true">Observation</option>
-							<option selected="true">Medication</option>
+						<select class="selectpicker" multiple title="Please pick ..." id="show" width = "auto">
+						  <option selected="true">Condition</option>
+						  <option selected="true">Observation</option>
+						  <option selected="true">Medication</option>
 						</select>
 					</div>
 				</div>

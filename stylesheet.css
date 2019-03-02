@@ -48,8 +48,8 @@ h2 {
   left: -44px;
   width: 10px;
   height: 10px;
-  background: #48b379;
-  border: 5px solid #eee9dc;
+  background: #eee9dc;
+  border: 10px solid #eee9dc;
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -92,6 +92,22 @@ h2 {
   word-break: break-word;
   hyphens: auto;
   overflow: hidden;
+  margin-bottom: 15 px
+}
+
+.content th {
+    border-right: solid 1px transparent;
+    text-align: center;
+    font-variant-caps: small-caps;
+}
+.content td {
+    border-right: solid 1px transparent;
+    text-align: center; 
+    width: 33%; 
+    word-break: break-all; 
+    word-wrap: break-word;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .content p {
@@ -119,6 +135,7 @@ label {
 }
 .radio:checked + .relative .circle {
   background: #f98262;
+  border: 10px solid #f98262;
 }
 .radio:checked ~ .content {
   max-height: 180px;
@@ -132,8 +149,31 @@ label {
   color: #000000;
   -webkit-transition: color 0.3s linear 0.3s;
 }
+
+.radio:checked ~ .content th {
+    border-right: solid 1px #e2e2e2;
+}
+
+.radio:checked ~ .content td {
+    border-right: solid 1px #e2e2e2;
+
+}
+
 .radio:checked ~ .content p {
   max-height: 200px;
   color: #000000;
   -webkit-transition: color 0.3s linear 0.3s;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.patient_profile th {
+    color: grey;
+    text-align: end;
+    padding-right: 20px;
+    font-variant-caps: all-small-caps;
+}
+
+#patient_name {
+    padding-top: 20px;
 }

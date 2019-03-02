@@ -31,12 +31,12 @@ function getTimelineNode(dateString, events) {
 
     var input = $("<input class='radio' type='radio' name='works'></input>").attr("id", dateString);
 
-    var eventLabel = $("<label>Event</label>").attr("for", dateString);
-    var otherLabels = $("<span class='date'>" + dateString + "</span><span class='circle'></span>");
+    var eventLabel = $("<label>Ambulatory Encounter</label>").attr("for", dateString);
+    var otherLabels = $("<span class='date'>"+dateString+"</span><span class='circle'></span>");
     var labels = $("<div class='relative'></div>").append(eventLabel, otherLabels);
 
     var table = $("<table style='width:100%'></table>");
-    var header = $("<tr><th style='text-align: center; border-right: solid 1px #e2e2e2;'>Condition</th><th style='text-align: center; border-right: solid 1px #e2e2e2;'>Observation</th><th style='text-align: center;'>Medication</th></tr>");
+    var header = $("<tr><th>Condition</th><th>Observation</th><th>Medication</th></tr>");
     var row = $("<tr></tr>");
     var condition = ""
     var observation = ""
@@ -53,9 +53,9 @@ function getTimelineNode(dateString, events) {
             medication += "<p>" + event.name + "</br>" + "Quantity : " + event.quantity.value + " " + event.quantity.unit + "</br>" + "Supply : " + event.supply.value + " " + event.supply.unit + "</p>";
         }
     }
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>" + condition + "</td>"));
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>" + observation + "</td>"));
-    row.append($("<td style='text-align: center; width: 33%; word-break: break-all; word-wrap: break-word;'>" + medication + "</td>"));
+    row.append($("<td>"+condition+"</td>"));
+    row.append($("<td>"+observation+"</td>"));
+    row.append($("<td>"+medication+"</td>"));
     table.append(header);
     table.append(row);
 
@@ -85,7 +85,6 @@ function render_list() {
         for (var date in eventsByDate) {
             $("#timeline").append(getTimelineNode(date, eventsByDate[date]));
         }
-
         $("#patient_name").text(patient.name);
         $("#patient_id").text(patient.id);
         $("#patient_gender").text(patient.gender);
@@ -94,6 +93,13 @@ function render_list() {
         $("#patient_phone").text(patient.phone);
         $("#patient_email").text(patient.email);
         $("#patient_address").text(getAddress(patient.address));
+        /*
+        $("#patient_name").text($.patient.name);
+        $("#patient_gender").text($.patient.gender);
+        $("#patient_id").text($.patient.id);
+        $("#patient_dob").text($.patient.birthDate.toLocaleDateString("en-US", {day:'numeric', month: 'short', year: 'numeric'});
+        $("#patient_address").text($.patient.address.line.join() + ", " + patient.address.city + ", " + patient.address.state + ", " + patient.address.country + " " + patient.address.postalCode);
+        */
     } else {
         console.log("--- waiting for data ---")
     }
