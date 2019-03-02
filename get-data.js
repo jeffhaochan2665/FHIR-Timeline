@@ -9,27 +9,43 @@ function getDateString(date) {
     return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 }
 
+function getAge(birthDate) {
+    currentDate = new Date();
+    if (currentDate.getMonth() > birthDate.getMonth() || (currentDate.getMonth == birthDate.getMonth() && currentDate.getDate() >= birthDate.getDate())) {
+        return currentDate.getFullYear() - birthDate.getFullYear();
+    } else {
+        return currentDate.getFullYear() - birthDate.getFullYear() - 1;
+    }
+}
+
+function getAddress(address_obj) {
+    address = "";
+    for (i = 0; i < address_obj.line.length; i++) {
+        address += address_obj.line[i] + " ";
+    }
+    return address.trim() + ", " + address_obj.city + ", " + address_obj.state + ", " + address_obj.country;
+}
+
 function getTimelineNode(dateString, events) {
     var node = $("<li class='work'></li>");
 
     var input = $("<input class='radio' type='radio' name='works'></input>").attr("id", dateString);
 
     var eventLabel = $("<label>Event</label>").attr("for", dateString);
-    var otherLabels = $("<span class='date'>"+dateString+"</span><span class='circle'></span>");
+    var otherLabels = $("<span class='date'>" + dateString + "</span><span class='circle'></span>");
     var labels = $("<div class='relative'></div>").append(eventLabel, otherLabels);
 
     var table = $("<table style='width:100%'></table>");
     var header = $("<tr><th style='text-align: center; border-right: solid 1px #e2e2e2;'>Condition</th><th style='text-align: center; border-right: solid 1px #e2e2e2;'>Observation</th><th style='text-align: center;'>Medication</th></tr>");
     var row = $("<tr></tr>");
+    var condition = ""
+    var observation = ""
+    var medication = ""
     for (i = 0; i < events.length; i++) {
-        var condition = ""
-        var observation = ""
-        var medication = ""
-        
         event = events[i];
         if (event.type == "condition") {
             condition += "<p>" + event.code + "</p>";
-        } 
+        }
         if (event.type == "observation") {
             observation += "<p>" + event.code + " : " + event.value + " " + event.unit + "</p>";
         }
@@ -37,12 +53,12 @@ function getTimelineNode(dateString, events) {
             medication += "<p>" + event.name + "</br>" + "Quantity : " + event.quantity.value + " " + event.quantity.unit + "</br>" + "Supply : " + event.supply.value + " " + event.supply.unit + "</p>";
         }
     }
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>"+condition+"</td>"));
-    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>"+observation+"</td>"));
-    row.append($("<td style='text-align: center; width: 33%; word-break: break-all; word-wrap: break-word;'>"+medication+"</td>"));
+    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>" + condition + "</td>"));
+    row.append($("<td style='text-align: center; border-right: solid 1px #e2e2e2; width: 33%; word-break: break-all; word-wrap: break-word;'>" + observation + "</td>"));
+    row.append($("<td style='text-align: center; width: 33%; word-break: break-all; word-wrap: break-word;'>" + medication + "</td>"));
     table.append(header);
     table.append(row);
-    
+
     var content = $("<div class='content'></div>").append($("<div class='row'></div>").append(table));
     node.append(input, labels, content);
     return node;
@@ -66,12 +82,18 @@ function render_list() {
                 eventsByDate[getDateString(event.date)] = [event];
             }
         }
-        
         for (var date in eventsByDate) {
             $("#timeline").append(getTimelineNode(date, eventsByDate[date]));
         }
-    
-        $("#gender").text(patient.gender);
+
+        $("#patient_name").text(patient.name);
+        $("#patient_id").text(patient.id);
+        $("#patient_gender").text(patient.gender);
+        $("#patient_age").text(getAge(patient.birthDate));
+        $("#patient_dob").text(getDateString(patient.birthDate));
+        $("#patient_phone").text(patient.phone);
+        $("#patient_email").text(patient.email);
+        $("#patient_address").text(getAddress(patient.address));
     } else {
         console.log("--- waiting for data ---")
     }
@@ -93,6 +115,10 @@ smart.patient.read().then(function (rawPatient) {
     patient.name = name;
     dateEncoding = rawPatient.birthDate.split("-");
     patient.birthDate = new Date(dateEncoding[0], dateEncoding[1] - 1, dateEncoding[2]);
+    for (i = 0; i < rawPatient.telecom.length; i++) {
+        communication = rawPatient.telecom[i];
+        patient[communication.system] = communication.value;
+    }
     $.patient = patient;
 });
 
@@ -145,18 +171,34 @@ smart.patient.api.fetchAllWithReferences({ type: "Observation" }).then(function 
     observations = [];
     for (i = 0; i < results.length; i++) {
         rawObservation = results[i];
-        console.log(rawObservation);
-        observation = {
-            type: "observation"
-        };
-        observation.code = rawObservation.code.text.replace("_", " ").toLowerCase();
         dateEncoding = rawObservation.effectiveDateTime.split("-");
-        observation.date = new Date(dateEncoding[0], dateEncoding[1] - 1, dateEncoding[2]);
-        if (rawObservation.valueQuantity) {
-            observation.value = rawObservation.valueQuantity.value;
-            observation.unit = rawObservation.valueQuantity.unit;
+        if (rawObservation.code.text == "Blood pressure systolic and diastolic") {
+            components = rawObservation.component;
+            for (j = 0; j < components.length; j++) {
+                component = components[j];
+                observation = {
+                    type: "observation"
+                };
+                observation.code = component.code.text.replace("_", " ").toLowerCase();
+                observation.date = new Date(dateEncoding[0], dateEncoding[1] - 1, dateEncoding[2]);
+                if (component.valueQuantity) {
+                    observation.value = component.valueQuantity.value;
+                    observation.unit = component.valueQuantity.unit;
+                }
+                observations.push(observation);
+            }
+        } else {
+            observation = {
+                type: "observation"
+            };
+            observation.code = rawObservation.code.text.replace("_", " ").toLowerCase();
+            observation.date = new Date(dateEncoding[0], dateEncoding[1] - 1, dateEncoding[2]);
+            if (rawObservation.valueQuantity) {
+                observation.value = rawObservation.valueQuantity.value;
+                observation.unit = rawObservation.valueQuantity.unit;
+            }
+            observations.push(observation);
         }
-        observations.push(observation);
     }
     observations.sort(function (a, b) {
         return a.date - b.date;
