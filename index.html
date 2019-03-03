@@ -128,10 +128,11 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 			$.timer_handler = setInterval(function () {
-				render_list();
+				onDataLoaded();
+				attachFilterListeners();
 			}, 300)
 		})
-		// document.getElementById('start_date').value
+		//document.getElementById('start_date')
 		// document.getElementById('start_date').value
 		// document.getElementById('condition').checked
 		// document.getElementById('observation').checked

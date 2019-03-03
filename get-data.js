@@ -4,9 +4,18 @@ $.patient = null;
 $.conditions = null;
 $.medDispenses = null;
 $.observations = null;
+$.eventsByDate = null;
 
 function getDateString(date) {
-    return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    monthString = (date.getMonth() + 1).toString();
+    if (monthString.length < 2) {
+        monthString = "0" + monthString;
+    }
+    dateString = date.getDate().toString();
+    if (dateString.length < 2) {
+        dateString = "0" + dateString;
+    }
+    return date.getFullYear() + "-" + monthString + "-" + dateString;
 }
 
 function getAge(birthDate) {
@@ -64,7 +73,33 @@ function getTimelineNode(dateString, events) {
     return node;
 }
 
-function render_list() {
+function renderPatient(patient) {
+    $("#patient_name").text(patient.name);
+    $("#patient_id").text(patient.id);
+    $("#patient_gender").text(patient.gender);
+    $("#patient_age").text(getAge(patient.birthDate));
+    $("#patient_dob").text(getDateString(patient.birthDate));
+    $("#patient_phone").text(patient.phone);
+    $("#patient_email").text(patient.email);
+    $("#patient_address").text(getAddress(patient.address));
+}
+
+function renderEvents(eventsByDate) {
+    $("#timeline").empty();
+    for (var date in eventsByDate) {
+        $("#timeline").append(getTimelineNode(date, eventsByDate[date]));
+    }
+}
+
+function renderData(patient, eventsByDate) {
+    renderPatient(patient);
+    renderEvents(eventsByDate);
+    $("#condition").attr('checked', true);
+    $("#observation").attr('checked', true);
+    $("#medication").attr('checked', true);
+}
+
+function onDataLoaded() {
     if (self.patient && self.conditions && self.medDispenses && self.observations) {
         console.log("--- data retrieved ---");
         clearInterval($.timer_handler);
@@ -73,6 +108,12 @@ function render_list() {
         events.sort(function (a, b) {
             return a.date - b.date;
         });
+        
+        if (events.length > 0) {
+            $("#start_date").val(getDateString(events[0].date));
+            $("#end_date").val(getDateString(events[events.length - 1].date));
+        }
+
         eventsByDate = {};
         for (i = 0; i < events.length; i++) {
             event = events[i];
@@ -82,28 +123,51 @@ function render_list() {
                 eventsByDate[getDateString(event.date)] = [event];
             }
         }
-        for (var date in eventsByDate) {
-            $("#timeline").append(getTimelineNode(date, eventsByDate[date]));
-        }
-        $("#patient_name").text(patient.name);
-        $("#patient_id").text(patient.id);
-        $("#patient_gender").text(patient.gender);
-        $("#patient_age").text(getAge(patient.birthDate));
-        $("#patient_dob").text(getDateString(patient.birthDate));
-        $("#patient_phone").text(patient.phone);
-        $("#patient_email").text(patient.email);
-        $("#patient_address").text(getAddress(patient.address));
-        /*
-        $("#patient_name").text($.patient.name);
-        $("#patient_gender").text($.patient.gender);
-        $("#patient_age").text(new Date().getFullYear() - $.patient.birthDate.getFullYear());        
-        $("#patient_id").text($.patient.id);
-        $("#patient_dob").text($.patient.birthDate.toLocaleDateString("en-US", {day:'numeric', month: 'short', year: 'numeric'});
-        $("#patient_address").text($.patient.address.line.join() + ", " + patient.address.city + ", " + patient.address.state + ", " + patient.address.country + " " + patient.address.postalCode);
-        */
+        $.eventsByDate = eventsByDate;
+
+        renderData(self.patient, self.eventsByDate);
     } else {
         console.log("--- waiting for data ---")
     }
+}
+
+function getDateObject(dateString) {
+    dateEncoding = dateString.split("-");
+    return new Date(dateEncoding[0], dateEncoding[1] - 1, dateEncoding[2]);
+}
+
+function getEventsInRange(startDateString, endDateString) {
+    events = {};
+    startDateObject = getDateObject(startDateString);
+    endDateObject = getDateObject(endDateString);
+    for (var date in self.eventsByDate) {
+        dateEncoding = date.split("-");
+        dateObject = new Date(dateEncoding[0], dateEncoding[1] - 1, dateEncoding[2]);
+        if (dateObject - startDateObject >= 0 && endDateObject - dateObject >= 0) {
+            events[getDateString(dateObject)] = self.eventsByDate[date];
+        }
+    }
+    return events;
+}
+
+function attachFilterListeners() {
+    $("#start_date").on("change", function() {
+        events = getEventsInRange($("#start_date").val(), $("#end_date").val());
+        renderEvents(events);
+    });
+    $("#end_date").on("change", function() {
+        events = getEventsInRange($("#start_date").val(), $("#end_date").val());
+        renderEvents(events);
+    });
+    $("#condition").on("change", function() {
+        //console.log($("#condition").is(':checked'));
+    });
+    $("#observation").on("change", function() {
+        //console.log($("#observation").is(':checked'));
+    });
+    $("#medication").on("change", function() {
+        //console.log($("#medication").is(':checked'));
+    });
 }
 
 smart.patient.read().then(function (rawPatient) {
