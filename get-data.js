@@ -38,7 +38,7 @@ function getAddress(address_obj) {
 function getTimelineNode(dateString, events) {
     var node = $("<li class='work'></li>");
 
-    var input = $("<input class='radio' type='radio' name='works'></input>").attr("id", dateString);
+    var input = $("<input class='radio' type='checkbox' name='works'></input>").attr("id", dateString);
 
     var eventLabel = $("<label>Ambulatory Encounter</label>").attr("for", dateString);
     var otherLabels = $("<span class='date'>"+dateString+"</span><span class='circle'></span>");
@@ -160,6 +160,8 @@ function attachFilterListeners() {
         renderEvents(events);
     });
     $("#condition").on("change", function() {
+        encounters = $("li[class=work]");
+        encounters.show();
         if ($("#condition").is(':checked')) {
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").show();
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").show();  
@@ -167,8 +169,24 @@ function attachFilterListeners() {
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").hide();
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").hide();
         }
+        for (i = 0; i < encounters.length; i++) {
+            encounter = $(encounters[i]);
+            entries = encounter.find("div[class='content']>div[class='row']>table>tr>td");
+            shouldHideEncounter = true;
+            for (j = 0; j < entries.length; j++) {
+                entry = $(entries[j]);
+                if (!(entry.is(':hidden') || entry.is(':empty'))) {
+                    shouldHideEncounter = false;
+                }
+            }
+            if (shouldHideEncounter) {
+                encounter.hide();
+            }
+        }
     });
     $("#observation").on("change", function() {
+        encounters = $("li[class=work]");
+        encounters.show();
         if ($("#observation").is(':checked')) {
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='observation']").show();
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='observation']").show();  
@@ -176,14 +194,44 @@ function attachFilterListeners() {
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='observation']").hide();
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='observation']").hide();
         }
+        for (i = 0; i < encounters.length; i++) {
+            encounter = $(encounters[i]);
+            entries = encounter.find("div[class='content']>div[class='row']>table>tr>td");
+            shouldHideEncounter = true;
+            for (j = 0; j < entries.length; j++) {
+                entry = $(entries[j]);
+                if (!(entry.is(':hidden') || entry.is(':empty'))) {
+                    shouldHideEncounter = false;
+                }
+            }
+            if (shouldHideEncounter) {
+                encounter.hide();
+            }
+        }
     });
     $("#medication").on("change", function() {
+        encounters = $("li[class=work]");
+        encounters.show();
         if ($("#medication").is(':checked')) {
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='medication']").show();
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='medication']").show();  
         } else {
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='medication']").hide();
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='medication']").hide();
+        }
+        for (i = 0; i < encounters.length; i++) {
+            encounter = $(encounters[i]);
+            entries = encounter.find("div[class='content']>div[class='row']>table>tr>td");
+            shouldHideEncounter = true;
+            for (j = 0; j < entries.length; j++) {
+                entry = $(entries[j]);
+                if (!(entry.is(':hidden') || entry.is(':empty'))) {
+                    shouldHideEncounter = false;
+                }
+            }
+            if (shouldHideEncounter) {
+                encounter.hide();
+            }
         }
     });
 }
