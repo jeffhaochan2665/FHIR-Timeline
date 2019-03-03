@@ -45,7 +45,7 @@ function getTimelineNode(dateString, events) {
     var labels = $("<div class='relative'></div>").append(eventLabel, otherLabels);
 
     var table = $("<table style='width:100%'></table>");
-    var header = $("<tr><th>Condition</th><th>Observation</th><th>Medication</th></tr>");
+    var header = $("<tr><th class='condition'>Condition</th><th class='observation'>Observation</th><th class='medication'>Medication</th></tr>");
     var row = $("<tr></tr>");
     var condition = ""
     var observation = ""
@@ -62,9 +62,9 @@ function getTimelineNode(dateString, events) {
             medication += "<p>" + event.name + "</br>" + "Quantity : " + event.quantity.value + " " + event.quantity.unit + "</br>" + "Supply : " + event.supply.value + " " + event.supply.unit + "</p>";
         }
     }
-    row.append($("<td>"+condition+"</td>"));
-    row.append($("<td>"+observation+"</td>"));
-    row.append($("<td>"+medication+"</td>"));
+    row.append($("<td class='condition'>"+condition+"</td>"));
+    row.append($("<td class='observation'>"+observation+"</td>"));
+    row.append($("<td class='medication'>"+medication+"</td>"));
     table.append(header);
     table.append(row);
 
@@ -160,13 +160,31 @@ function attachFilterListeners() {
         renderEvents(events);
     });
     $("#condition").on("change", function() {
-        //console.log($("#condition").is(':checked'));
+        if ($("#condition").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").hide();
+        }
     });
     $("#observation").on("change", function() {
-        //console.log($("#observation").is(':checked'));
+        if ($("#observation").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='observation']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='observation']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='observation']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='observation']").hide();
+        }
     });
     $("#medication").on("change", function() {
-        //console.log($("#medication").is(':checked'));
+        if ($("#medication").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='medication']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='medication']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='medication']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='medication']").hide();
+        }
     });
 }
 
