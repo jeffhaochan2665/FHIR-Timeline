@@ -4,7 +4,7 @@ We aim to develop a web app enabling healthcare providers to visualize a given p
 
 
 ## Usage
-You can simply click on this link:
+You can simply click on this link: https://jeffhaochan2665.github.io/FHIR-Timeline/
 Or you can download the repo and click on the index.html
 
 ## Authors
