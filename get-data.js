@@ -154,10 +154,82 @@ function attachFilterListeners() {
     $("#start_date").on("change", function() {
         events = getEventsInRange($("#start_date").val(), $("#end_date").val());
         renderEvents(events);
+        encounters = $("li[class=work]");
+        if ($("#condition").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").hide();
+        }
+        if ($("#observation").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='observation']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='observation']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='observation']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='observation']").hide();
+        }
+        if ($("#medication").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='medication']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='medication']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='medication']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='medication']").hide();
+        }
+        for (i = 0; i < encounters.length; i++) {
+            encounter = $(encounters[i]);
+            entries = encounter.find("div[class='content']>div[class='row']>table>tr>td");
+            shouldHideEncounter = true;
+            for (j = 0; j < entries.length; j++) {
+                entry = $(entries[j]);
+                if (!(entry.is(':hidden') || entry.is(':empty'))) {
+                    shouldHideEncounter = false;
+                }
+            }
+            if (shouldHideEncounter) {
+                encounter.hide();
+            }
+        }        
     });
     $("#end_date").on("change", function() {
         events = getEventsInRange($("#start_date").val(), $("#end_date").val());
         renderEvents(events);
+        encounters = $("li[class=work]");
+        if ($("#condition").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").hide();
+        }
+        if ($("#observation").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='observation']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='observation']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='observation']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='observation']").hide();
+        }
+        if ($("#medication").is(':checked')) {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='medication']").show();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='medication']").show();  
+        } else {
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='medication']").hide();
+            $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='medication']").hide();
+        }
+        for (i = 0; i < encounters.length; i++) {
+            encounter = $(encounters[i]);
+            entries = encounter.find("div[class='content']>div[class='row']>table>tr>td");
+            shouldHideEncounter = true;
+            for (j = 0; j < entries.length; j++) {
+                entry = $(entries[j]);
+                if (!(entry.is(':hidden') || entry.is(':empty'))) {
+                    shouldHideEncounter = false;
+                }
+            }
+            if (shouldHideEncounter) {
+                encounter.hide();
+            }
+        }
     });
     $("#condition").on("change", function() {
         encounters = $("li[class=work]");
@@ -168,7 +240,7 @@ function attachFilterListeners() {
         } else {
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>th[class='condition']").hide();
             $("li[class=work]>div[class=content]>div[class=row]>table>tr>td[class='condition']").hide();
-        }
+        }  
         for (i = 0; i < encounters.length; i++) {
             encounter = $(encounters[i]);
             entries = encounter.find("div[class='content']>div[class='row']>table>tr>td");
